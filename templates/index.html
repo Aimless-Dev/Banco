@@ -1,0 +1,95 @@
+{% extends 'base/base.html'%}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="card">
+            <div class="card-body">
+                <form action="{{url_for('add_registro')}}" method="POST">
+                    <div class="form-group form-floating">
+                        <input id="name" type="text" placeholder="Nombre/s" name="nombre" class="form-control" required>
+                        <label for="name">Nombre</label>
+                        <br>
+                    </div>
+                    <div class="form-group form-floating">
+                        <input id="app" type="text" placeholder="Apellido/s" name="apellido" class="form-control" required>
+                        <label for="app">Apeliidos</label>
+                        <br>
+                    </div>
+                    <div class="form-group form-floating">
+                        <input type="radio" name="sexo" id="hombre" value="H"> Hombre
+                        <input type="radio" name="sexo" id="mujer" value="M"> Mujer
+                    </div>
+                    <br>
+                    <div class="form-group form-floating">
+                        <input id="curp" type="text" placeholder="CURP" name="curp" class="form-control" required>
+                        <label for="curp">Curp</label>
+                        <br>
+                    </div>
+                    <div class="form-group form-floating">
+                        <input id="ema" type="email" placeholder="Email" name="email" class="form-control" required>
+                        <label for="ema">Email</label>
+                        <br>
+                    </div>
+                    <div class="form-group form-floating">
+                        <input id="pass" type="password" placeholder="Password" name="password" class="form-control" required>
+                        <label for="pass">Password</label>
+                        <br>
+                    </div>
+                    <select name="sucursal" class="form-select" aria-label="Default select example">
+                        <option selected>Seccionar sucursal</option>
+                        {% for su in suc %}
+                            <option value="{{su.0}}">{{su.1}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary">Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <td>Nombre</td>
+                <td>Apellido</td>
+                <td>Sexo</td>
+                <td>CURP</td>
+                <td>Email</td>
+                <td>Sucursal</td>
+                <td></td>
+            </thead>
+            <tbody>
+                {% for us in user %}
+                    <tr>
+                        <td>{{ us.1 }}</td>
+                        <td>{{ us.2 }}</td>
+                        <td>{{ us.4 }}</td>
+                        <td>{{ us.3 }}</td>
+                        <td>{{ us.5 }}</td>
+                        <td>{{ us.7 }}</td>
+                        <td>
+                            <a href="/edit/{{us.0}}" class="btn btn-secondary">Editar</a>
+                            <a href="/delete/{{us.0}}" class="btn btn-danger btn-delete">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
